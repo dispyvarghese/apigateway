@@ -1,0 +1,33 @@
+server:
+   port: 3200
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:8761/eureka/ 
+   instance:
+      appName:apigateway
+spring:
+   application:
+      name: apigateway
+   cloud:
+      gateway:
+         routes:
+         - id: OrderServiceLoadBalancer
+           uri: "http://localhost:6502/orders"
+           predicates:
+           - "Path=/orders/**"
+         - id: ProductService
+           uri: "http://localhost:7500/product"
+           predicates:
+           - "Path=/product/**"
+management:
+   endpoint:
+      gateway:
+         enabled: true
+   endpoints:
+      web:
+         exposure:
+            include: gateway
+
+          
+         
